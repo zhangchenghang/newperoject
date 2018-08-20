@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 配置分页插件 -->
+	<plugins>
+		<!--配置中实现的是com.github.pagehelper.PageHelper这个接口，
+		而错误报的是这个借口在强转成org.apache.ibatis.plugin.Interceptor这个借口的时候报错了，
+		而我使用的是pageheper5.1.2版本，上网一查，自4.0.0版本以后就不再实现这个接口了，
+		转而实现这个接口：org.apache.ibatis.plugin.Interceptor,4.0版本之前依旧使用com.github.pagehelper.PageHelper接口。
+		4.0版本之后已经可以自动识别数据库版本，因此数据库方言的配置应该注释-->
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<!-- 配置数据库的方言 -->
+			<!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库
+        	<property name="dialect" value="mysql"/>-->
+		</plugin>
+	</plugins>
+</configuration>

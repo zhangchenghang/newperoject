@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wintelia.projectDao.DataBaseInfoDao">
+
+    <resultMap id="tablesmap" type="com.wintelia.projectModel.DatabaseModel">
+        <result column="tableschema" property="tableschema"/>
+        <result column="tablename" property="tablename"/>
+        <result column="tabletype" property="tabletype"/>
+        <result column="createtime" property="createtime"/>
+        <result column="tablecomment" property="tablecomment"/>
+    </resultMap>
+    <resultMap id="columnsmap" type="com.wintelia.projectModel.TableSchemaModel">
+        <result column="tableschema" property="tableschema"/>
+        <result column="tablename" property="tablename"/>
+        <result column="columnname" property="columnname"/>
+        <result column="columntype" property="columntype"/>
+        <result column="datatype" property="datatype"/>
+        <result column="ordinalposition" property="ordinalposition"/>
+        <result column="columnkey" property="columnkey"/>
+        <result column="columncomment" property="columncomment"/>
+    </resultMap>
+
+    <select id="GetAllTables" resultMap="tablesmap">
+        SELECT   TABLE_SCHEMA tableschema,
+	                    TABLE_NAME tablename,
+	                    TABLE_TYPE tabletype,
+	                    CREATE_TIME createtime,
+	                    TABLE_COMMENT tablecomment
+         FROM
+	                    information_schema.TABLES
+         WHERE
+	                    TABLE_SCHEMA = (SELECT DATABASE())
+    </select>
+
+	<select id="GetTableSchemaInfo" resultMap="columnsmap">
+		SELECT  	TABLE_SCHEMA tableschema,
+                        TABLE_NAME tablename,
+                        COLUMN_NAME columnname,
+                        COLUMN_TYPE columntype,
+                        DATA_TYPE datatype,
+                        ORDINAL_POSITION ordinalposition,
+                        COLUMN_KEY columnkey,
+                        COLUMN_COMMENT columncomment
+        FROM
+	                    information_schema.COLUMNS
+        WHERE
+	                    TABLE_SCHEMA = (SELECT DATABASE())
+                         AND TABLE_NAME =#{tablename}
+	</select>
+</mapper>
